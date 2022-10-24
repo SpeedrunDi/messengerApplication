@@ -25,23 +25,23 @@ const usersSlice = createSlice({
       state.user = user;
     },
     registerFailure(state, action) {
-      state.loginLoading = false;
-      state.loginError = action.payload;
+      state.registerLoading = false;
+      state.registerError = action.payload;
     },
     loginRequest(state) {
-      state.registerLoading = true;
-      state.registerError = null;
+      state.loginLoading = true;
+      state.loginError = null;
     },
     loginSuccess(state, {payload: user}) {
       state.loginLoading = false;
-      state.user = user;
+      state.user = user.user;
     },
     loginFailure(state, action) {
       state.loginLoading = false;
       state.loginError = action.payload;
     },
     logoutRequest(state) {
-      state.loginLoading = true;
+      state.logoutLoading = true;
       state.logoutError = null;
     },
     logoutSuccess(state) {

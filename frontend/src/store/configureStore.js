@@ -13,13 +13,9 @@ const rootReducer = combineReducers({
 const persistedState = loadFromLocalStorage();
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [
-  sagaMiddleware,
-];
-
 const store = configureStore({
   reducer: rootReducer,
-  middleware,
+  middleware: [sagaMiddleware],
   devTools: true,
   preloadedState: persistedState,
 });

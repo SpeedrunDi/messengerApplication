@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {Avatar} from "@mui/material";
-import {logoutUser} from "../../../../store/sagas/usersSagas";
+import {logoutRequest} from "../../../../store/actions/usersActions";
 
 const UserMenu = ({user}) => {
   const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const UserMenu = ({user}) => {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={() => dispatch(logoutUser())}>Logout</MenuItem>
+        <MenuItem onClick={() => dispatch(logoutRequest())}>Logout</MenuItem>
       </Menu>
     </div>
   );
