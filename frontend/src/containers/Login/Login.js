@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {makeStyles} from "tss-react/mui";
 import {Alert, Avatar, Container, Grid, Link, Typography} from "@mui/material";
-// import {LockOpenOutlined} from "@mui/icons-material";
+import {LockOpenOutlined} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
 import FormElement from "../../components/UI/FormElement/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {loginRequest} from "../../store/actions/usersActions";
+import FacebookLogin from "../../components/FacebookLogin/FacebookLogin";
 
 const useStyles = makeStyles()(theme => ({
   paper: {
@@ -51,17 +52,15 @@ const Login = ({history}) => {
   const submitFormHandler = e => {
     e.preventDefault();
 
-    dispatch(loginRequest({...user}));
-
-    history.replace('/');
+    dispatch(loginRequest({user: {...user}, history}));
   };
 
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
-        {/*<Avatar className={classes.avatar}>*/}
-        {/*  <LockOpenOutlined/>*/}
-        {/*</Avatar>*/}
+        <Avatar className={classes.avatar}>
+          <LockOpenOutlined/>
+        </Avatar>
         <Typography component="h1" variant="h6">
           Sign in
         </Typography>
@@ -107,6 +106,10 @@ const Login = ({history}) => {
             >
               Sign In
             </ButtonWithProgress>
+          </Grid>
+
+          <Grid item xs={12}>
+            <FacebookLogin history={history}/>
           </Grid>
         </Grid>
 

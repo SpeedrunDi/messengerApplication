@@ -1,10 +1,11 @@
 import {combineReducers} from "redux";
 import createSagaMiddleware from "redux-saga";
+import {configureStore} from "@reduxjs/toolkit";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import axiosApi from "../axiosApi";
 import rootSagas from "./rootSagas";
-import {configureStore} from "@reduxjs/toolkit";
 import usersSlice, {initialState} from "./slices/usersSlice";
+
 
 const rootReducer = combineReducers({
   users: usersSlice.reducer,

@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {makeStyles} from "tss-react/mui";
 import {Avatar, Container, Grid, Link, Typography} from "@mui/material";
-// import {LockOutlined} from "@mui/icons-material";
+import {LockOutlined} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
 import FormElement from "../../components/UI/FormElement/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {registerRequest} from "../../store/actions/usersActions";
+import FacebookLogin from "../../components/FacebookLogin/FacebookLogin";
 
 const useStyles = makeStyles()(theme => ({
   paper: {
@@ -48,9 +49,7 @@ const Register = ({history}) => {
   const submitFormHandler = e => {
     e.preventDefault();
 
-    dispatch(registerRequest({...user}));
-
-    history.replace('/');
+    dispatch(registerRequest({user: {...user}, history}));
   };
 
   const getFieldError = fieldName => {
@@ -64,9 +63,9 @@ const Register = ({history}) => {
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
-        {/*<Avatar className={classes.avatar}>*/}
-        {/*  <LockOutlined/>*/}
-        {/*</Avatar>*/}
+        <Avatar className={classes.avatar}>
+          <LockOutlined/>
+        </Avatar>
         <Typography component="h1" variant="h6">
           Sign up
         </Typography>
@@ -119,6 +118,9 @@ const Register = ({history}) => {
             </ButtonWithProgress>
           </Grid>
 
+          <Grid item xs={12}>
+            <FacebookLogin/>
+          </Grid>
         </Grid>
 
         <Grid container justifyContent="flex-end" marginTop="10px">

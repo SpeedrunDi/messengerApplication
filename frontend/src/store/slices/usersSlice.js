@@ -8,6 +8,8 @@ export const initialState = {
   registerError: null,
   loginLoading: false,
   loginError: null,
+  facebookLoginLoading: false,
+  facebookLoginError: null,
   logoutLoading: false,
   logoutError: null
 };
@@ -28,6 +30,7 @@ const usersSlice = createSlice({
       state.registerLoading = false;
       state.registerError = action.payload;
     },
+
     loginRequest(state) {
       state.loginLoading = true;
       state.loginError = null;
@@ -40,6 +43,20 @@ const usersSlice = createSlice({
       state.loginLoading = false;
       state.loginError = action.payload;
     },
+
+    facebookLoginRequest(state) {
+      state.facebookLoginLoading = true;
+      state.facebookLoginError = null;
+    },
+    facebookLoginSuccess(state, {payload: user}) {
+      state.facebookLoginLoading = false;
+      state.user = user.user;
+    },
+    facebookLoginFailure(state, action) {
+      state.facebookLoginLoading = false;
+      state.facebookLoginError = action.payload;
+    },
+
     logoutRequest(state) {
       state.logoutLoading = true;
       state.logoutError = null;
