@@ -7,6 +7,25 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
+router.get('/friends', auth, async (req, res) => {
+  if (req.user.friends === 0) {
+    return res.status(404).send({message: "You don't have friends!"});
+  }
+  let friendsId = req.user.friends;
+
+  try {
+    const promises = friendsId.map(async (id) => {
+      return User.findOne({_id: id});
+    });
+
+    Promise.all(promises).then(values => {
+      res.send(values);
+    });
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
     const {email, password, displayName} = req.body;
@@ -98,9 +117,25 @@ router.patch('/', auth, async (req, res) => {
       {_id: req.user._id},
       {$push: {friends: friend._id}},
       {returnDocument: "after"}
-      );
+    );
 
     await user.save({validateBeforeSave: false});
+
+    res.send(user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+router.patch('/delete_friend/:id', auth, async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      {_id: req.user._id},
+      {$pull: {friends: id}},
+      {returnDocument: "after"}
+    );
 
     res.send(user);
   } catch (e) {

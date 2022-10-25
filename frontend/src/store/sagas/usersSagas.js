@@ -13,8 +13,24 @@ import {
   facebookLoginSuccess,
   facebookLoginFailure,
   facebookLoginRequest,
-  addFriendFailure, addFriendRequest, addFriendSuccess
+  addFriendFailure,
+  addFriendRequest,
+  addFriendSuccess,
+  getFriendsSuccess,
+  getFriendsFailure,
+  getFriendsRequest,
+  removeFriendFailure, removeFriendSuccess, removeFriendRequest
 } from "../actions/usersActions";
+
+export function* getFriends() {
+  try {
+    const {data} = yield axiosApi('/users/friends');
+
+    yield put(getFriendsSuccess(data));
+  } catch (e) {
+    yield put(getFriendsFailure(e));
+  }
+}
 
 export function* registerUser({payload}) {
   const {user, history} = payload;
@@ -74,12 +90,26 @@ export function* logoutUser({payload}) {
 export function* addFriend({payload}) {
   const {email, history} = payload;
   try {
-    yield axiosApi.patch('users', email);
+    yield axiosApi.patch('/users', email);
 
     yield put(addFriendSuccess());
+
     history.push('/');
   } catch (e) {
     yield put(addFriendFailure(e.response.data));
+  }
+}
+
+export function* removeFriend({payload}) {
+  const {id, history} = payload;
+
+  try {
+    yield axiosApi.patch('/users/delete_friend/' + id);
+
+    yield put(removeFriendSuccess());
+    history.push('/');
+  } catch (e) {
+    yield put(removeFriendFailure(e));
   }
 }
 
@@ -89,6 +119,8 @@ const userSagas = [
   takeEvery(facebookLoginRequest, facebookLogin),
   takeEvery(logoutRequest, logoutUser),
   takeEvery(addFriendRequest, addFriend),
+  takeEvery(getFriendsRequest, getFriends),
+  takeEvery(removeFriendRequest, removeFriend),
 ];
 
 export default userSagas;

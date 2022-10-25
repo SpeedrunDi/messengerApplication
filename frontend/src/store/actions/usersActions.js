@@ -1,6 +1,9 @@
 import usersSlice from "../slices/usersSlice";
 
 export const {
+  getFriendsRequest,
+  getFriendsSuccess,
+  getFriendsFailure,
   registerRequest,
   registerSuccess,
   registerFailure,
@@ -15,5 +18,8 @@ export const {
   logoutFailure,
   addFriendRequest,
   addFriendSuccess,
-  addFriendFailure
+  addFriendFailure,
+  removeFriendRequest,
+  removeFriendSuccess,
+  removeFriendFailure
 } = usersSlice.actions;

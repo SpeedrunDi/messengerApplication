@@ -4,6 +4,9 @@ const name = 'users';
 
 export const initialState = {
   user: null,
+  friends: [],
+  friendsLoading: false,
+  friendsError: null,
   registerLoading: false,
   registerError: null,
   loginLoading: false,
@@ -20,6 +23,19 @@ const usersSlice = createSlice({
   name,
   initialState,
   reducers: {
+    getFriendsRequest(state) {
+      state.friendsLoading = true;
+      state.friendsError = null;
+    },
+    getFriendsSuccess(state, {payload: friends}) {
+      state.friendsLoading = false;
+      state.friends = friends;
+    },
+    getFriendsFailure(state, action) {
+      state.friendsLoading = false;
+      state.friendsError = action.payload
+    },
+
     registerRequest(state) {
       state.registerLoading = true;
       state.registerError = null;
@@ -80,6 +96,18 @@ const usersSlice = createSlice({
       state.friendLoading = false;
     },
     addFriendFailure(state, action) {
+      state.friendLoading = false;
+      state.friendError = action.payload;
+    },
+
+    removeFriendRequest(state) {
+      state.friendLoading = true;
+      state.friendError = null;
+    },
+    removeFriendSuccess(state) {
+      state.friendLoading = false;
+    },
+    removeFriendFailure(state, action) {
       state.friendLoading = false;
       state.friendError = action.payload;
     },
