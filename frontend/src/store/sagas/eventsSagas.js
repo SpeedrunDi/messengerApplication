@@ -18,11 +18,13 @@ export function* fetchEvents() {
   }
 }
 
-export function* createEvent({payload: eventData}) {
+export function* createEvent({payload}) {
+  const {eventData, history} = payload;
   try {
-    yield axiosApi.post('/events', eventData);
+    yield axiosApi.post('/events', eventData.eventData);
 
     yield put(createEventsSuccess());
+    history.push('/');
   } catch (e) {
     yield put(createEventsFailure(e.response.data));
   }

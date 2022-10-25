@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
   try {
-    const events = Event.find();
+    const events = await Event.find({user: req.user._id});
 
     res.send(events);
   } catch (e) {
@@ -19,7 +19,9 @@ router.post('/', auth, async (req, res) => {
 
   const newDatetime = new Date(datetime);
 
-  console.log(newDatetime);
+  if (newDatetime < new Date()) {
+    return res.status(400).send({dateMessage: 'You can\'t create an event on a past date!'});
+  }
 
   const eventData = {
     name,

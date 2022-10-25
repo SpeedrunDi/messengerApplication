@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Alert, Grid} from "@mui/material";
 import Button from "@mui/material/Button";
 import DatePicker from "react-datepicker";
@@ -13,6 +13,17 @@ const FormEvent = ({error, onSubmit}) => {
   });
   const [date, setDate] = useState("");
   const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    if (error && error.dateMessage) {
+      setAlert((
+        <Alert severity="error">
+          Error! {error.dateMessage}
+        </Alert>
+      ));
+      setDate("");
+    }
+  }, [error]);
 
   const submitFormHandler = e => {
     e.preventDefault();
