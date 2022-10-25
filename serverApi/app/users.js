@@ -113,6 +113,18 @@ router.patch('/', auth, async (req, res) => {
       return res.status(401).send({message: 'Not found user'});
     }
 
+    let already = true;
+    req.user.friends.forEach(friendId => {
+      console.log(friendId, friend._id);
+      if (friendId.equals(friend._id)) {
+        already = false;
+      }
+    });
+    console.log(already);
+    if (!already) {
+      return res.status(400).send({message: 'User already added'});
+    }
+
     const user = await User.findOneAndUpdate(
       {_id: req.user._id},
       {$push: {friends: friend._id}},

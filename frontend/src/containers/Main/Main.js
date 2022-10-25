@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Box, Typography} from "@mui/material";
-import {fetchEventsRequest} from "../../store/actions/eventsActions";
+import {fetchEventsRequest, removeEventRequest} from "../../store/actions/eventsActions";
 import EventItem from "../../components/EventItem/EventItem";
 
 const Main = ({history}) => {
@@ -19,6 +19,10 @@ const Main = ({history}) => {
     dispatch(fetchEventsRequest());
   }, [dispatch]);
 
+  const removeEvent = id => {
+    dispatch(removeEventRequest(id));
+  };
+
   return (
     <Box>
       <Typography variant="h2" textAlign="center" marginBottom="20px">
@@ -27,7 +31,7 @@ const Main = ({history}) => {
       {
         events.length !== 0 ? (
           events.map(event => (
-            <EventItem event={event} key={event._id}/>
+            <EventItem event={event} key={event._id} user={user} onDelete={removeEvent}/>
           ))
         ) : <Typography textAlign="center">No events!</Typography>
       }

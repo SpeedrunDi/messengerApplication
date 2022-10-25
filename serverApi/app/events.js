@@ -1,18 +1,25 @@
 const express = require('express');
 const Event = require('../models/Event');
 const auth = require("../middleware/auth");
+const User = require("../models/User");
 
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
-  const query = {};
   const sort = {};
   try {
-    query.user = req.user._id;
     sort.datetime = 1;
+    const usersId = [];
+    const users = await User.find({friends: req.user._id}, {_id: 1});
+
+    if (users && users.length !== 0) {
+      users.forEach(user => {
+        usersId.push(user._id);
+      });
+    }
 
     const events = await Event
-      .find(query)
+      .find({$or: [{user: req.user._id}, {user: {$in: usersId}}]})
       .sort(sort)
       .populate('user', 'displayName');
 
@@ -42,6 +49,24 @@ router.post('/', auth, async (req, res) => {
     const event = new Event(eventData);
 
     await event.save();
+
+    res.send(event);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+router.delete('/:id', auth, async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).send({message: 'ID not valid'});
+  }
+
+  try {
+    const event = await Event.findOneAndDelete({_id: req.params.id});
+
+    if (!event) {
+      return res.status(404).send({message: "Track not found!"});
+    }
 
     res.send(event);
   } catch (e) {

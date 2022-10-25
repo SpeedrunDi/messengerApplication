@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Typography} from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 
-const EventItem = ({event}) => {
+const EventItem = ({event, user, onDelete}) => {
   let datetime = new Date(event.datetime);
 
   return (
@@ -15,6 +15,13 @@ const EventItem = ({event}) => {
       padding="10px"
       borderRadius="5px"
     >
+      {user._id !== event.user._id && (
+        <Grid item xs={12}>
+          <Typography>
+            {event.user.displayName}
+          </Typography>
+        </Grid>
+      )}
       <Grid item xs={5}>
         <Typography>
           {datetime.toString()}
@@ -36,6 +43,7 @@ const EventItem = ({event}) => {
         <ClearIcon
           cursor="pointer"
           sx={{marginLeft: "50%"}}
+          onClick={onDelete}
         />
       </Grid>
     </Grid>

@@ -94,7 +94,7 @@ export function* addFriend({payload}) {
 
     yield put(addFriendSuccess());
 
-    history.push('/');
+    history.push('/friends');
   } catch (e) {
     yield put(addFriendFailure(e.response.data));
   }

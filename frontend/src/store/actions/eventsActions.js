@@ -6,5 +6,8 @@ export const {
   fetchEventsFailure,
   createEventsRequest,
   createEventsSuccess,
-  createEventsFailure
+  createEventsFailure,
+  removeEventRequest,
+  removeEventSuccess,
+  removeEventFailure
 } = eventsSlice.actions;

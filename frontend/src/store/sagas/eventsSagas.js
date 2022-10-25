@@ -5,7 +5,7 @@ import {
   createEventsSuccess,
   fetchEventsFailure,
   fetchEventsRequest,
-  fetchEventsSuccess
+  fetchEventsSuccess, removeEventFailure, removeEventRequest, removeEventSuccess
 } from "../actions/eventsActions";
 
 export function* fetchEvents() {
@@ -30,9 +30,20 @@ export function* createEvent({payload}) {
   }
 }
 
+export function* removeEvent({payload: id}) {
+  try {
+    yield axiosApi.delete('/events/' + id);
+
+    yield put(removeEventSuccess());
+  } catch (e) {
+    yield put(removeEventFailure(e));
+  }
+}
+
 const eventSagas = [
   takeEvery(fetchEventsRequest, fetchEvents),
   takeEvery(createEventsRequest, createEvent),
+  takeEvery(removeEventRequest, removeEvent),
 ];
 
 export default eventSagas;

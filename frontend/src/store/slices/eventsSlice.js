@@ -35,7 +35,19 @@ const eventsSlice = createSlice({
     createEventsFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
-    }
+    },
+
+    removeEventRequest(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    removeEventSuccess(state) {
+      state.loading = false;
+    },
+    removeEventFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   }
 });
 
