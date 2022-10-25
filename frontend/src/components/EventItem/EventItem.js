@@ -3,6 +3,8 @@ import {Grid, Typography} from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 
 const EventItem = ({event}) => {
+  let datetime = new Date(event.datetime);
+
   return (
     <Grid
       container
@@ -15,7 +17,7 @@ const EventItem = ({event}) => {
     >
       <Grid item xs={5}>
         <Typography>
-          {event.datetime}
+          {datetime.toString()}
         </Typography>
       </Grid>
       <Grid item xs={4}>

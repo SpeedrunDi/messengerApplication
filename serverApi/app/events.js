@@ -5,8 +5,16 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
+  const query = {};
+  const sort = {};
   try {
-    const events = await Event.find({user: req.user._id});
+    query.user = req.user._id;
+    sort.datetime = 1;
+
+    const events = await Event
+      .find(query)
+      .sort(sort)
+      .populate('user', 'displayName');
 
     res.send(events);
   } catch (e) {
@@ -26,7 +34,7 @@ router.post('/', auth, async (req, res) => {
   const eventData = {
     name,
     duration,
-    datetime: newDatetime,
+    datetime: newDatetime.toISOString(),
     user: req.user._id
   };
 
