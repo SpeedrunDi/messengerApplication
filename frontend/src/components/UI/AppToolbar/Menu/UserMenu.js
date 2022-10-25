@@ -1,6 +1,6 @@
 import {useState} from "react";
 import * as React from 'react';
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -44,8 +44,7 @@ const UserMenu = ({user}) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem component={Link} to="/new_event" onClick={handleClose}>Add event</MenuItem>
         <MenuItem onClick={() => dispatch(logoutRequest({history}))}>Logout</MenuItem>
       </Menu>
     </div>
