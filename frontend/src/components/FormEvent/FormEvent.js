@@ -71,6 +71,8 @@ const FormEvent = ({error, onSubmit}) => {
       marginX="auto"
       direction="column"
       rowSpacing={2}
+      component="form"
+      onSubmit={submitFormHandler}
     >
       <FormElement
         required={true}
@@ -103,7 +105,7 @@ const FormEvent = ({error, onSubmit}) => {
       </Grid>
 
       <Grid item>
-        <Button type="submit" color="primary" variant="contained" onClick={submitFormHandler}>Create</Button>
+        <Button type="submit" color="primary" variant="contained">Create</Button>
       </Grid>
     </Grid>
   );

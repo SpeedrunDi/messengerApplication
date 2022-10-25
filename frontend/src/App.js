@@ -5,6 +5,7 @@ import Main from "./containers/Main/Main";
 import Register from "./containers/Register/Register";
 import Login from "./containers/Login/Login";
 import NewEvent from "./containers/NewEvent/NewEvent";
+import AddFriend from "./containers/AddFriend/AddFriend";
 
 const App = () => (
   <Layout>
@@ -13,6 +14,7 @@ const App = () => (
       <Route path="/register" component={Register}/>
       <Route path="/login" component={Login}/>
       <Route path="/new_event" component={NewEvent}/>
+      <Route path="/add_friend" component={AddFriend}/>
       <Route path="*" render={() => <Typography variant="h1" textAlign="center">Not found!</Typography>}/>
     </Switch>
   </Layout>

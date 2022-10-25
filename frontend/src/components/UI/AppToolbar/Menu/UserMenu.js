@@ -45,6 +45,7 @@ const UserMenu = ({user}) => {
         }}
       >
         <MenuItem component={Link} to="/new_event" onClick={handleClose}>Add event</MenuItem>
+        <MenuItem component={Link} to="/add_friend" onClick={handleClose}>Add friend</MenuItem>
         <MenuItem onClick={() => dispatch(logoutRequest({history}))}>Logout</MenuItem>
       </Menu>
     </div>

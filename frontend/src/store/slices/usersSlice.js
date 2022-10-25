@@ -11,7 +11,9 @@ export const initialState = {
   facebookLoginLoading: false,
   facebookLoginError: null,
   logoutLoading: false,
-  logoutError: null
+  logoutError: null,
+  friendLoading: false,
+  friendError: null
 };
 
 const usersSlice = createSlice({
@@ -68,7 +70,19 @@ const usersSlice = createSlice({
     logoutFailure(state, action) {
       state.logoutLoading = false;
       state.logoutError = action.payload;
-    }
+    },
+
+    addFriendRequest(state) {
+      state.friendLoading = true;
+      state.friendError = null;
+    },
+    addFriendSuccess(state) {
+      state.friendLoading = false;
+    },
+    addFriendFailure(state, action) {
+      state.friendLoading = false;
+      state.friendError = action.payload;
+    },
   }
 });
 

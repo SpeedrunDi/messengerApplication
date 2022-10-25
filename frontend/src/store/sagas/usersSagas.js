@@ -7,7 +7,13 @@ import {
   loginSuccess,
   loginFailure,
   loginRequest,
-  logoutRequest, logoutSuccess, logoutFailure, facebookLoginSuccess, facebookLoginFailure, facebookLoginRequest
+  logoutRequest,
+  logoutSuccess,
+  logoutFailure,
+  facebookLoginSuccess,
+  facebookLoginFailure,
+  facebookLoginRequest,
+  addFriendFailure, addFriendRequest, addFriendSuccess
 } from "../actions/usersActions";
 
 export function* registerUser({payload}) {
@@ -65,11 +71,24 @@ export function* logoutUser({payload}) {
   }
 }
 
+export function* addFriend({payload}) {
+  const {email, history} = payload;
+  try {
+    yield axiosApi.patch('users', email);
+
+    yield put(addFriendSuccess());
+    history.push('/');
+  } catch (e) {
+    yield put(addFriendFailure(e.response.data));
+  }
+}
+
 const userSagas = [
   takeEvery(registerRequest, registerUser),
   takeEvery(loginRequest, loginUser),
   takeEvery(facebookLoginRequest, facebookLogin),
   takeEvery(logoutRequest, logoutUser),
+  takeEvery(addFriendRequest, addFriend),
 ];
 
 export default userSagas;

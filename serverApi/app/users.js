@@ -3,6 +3,7 @@ const axios = require('axios');
 const {nanoid} = require('nanoid');
 const User = require('../models/User');
 const config = require('../config');
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -78,6 +79,32 @@ router.post('/facebookLogin', async (req, res) => {
     return res.send({message: 'Login or register successful!', user});
   } catch (e) {
     return res.status(401).send({message: 'Facebook token incorrect!'});
+  }
+});
+
+router.patch('/', auth, async (req, res) => {
+  if (!req.body.email) {
+    return res.status(400).send({message: 'Email is required!'});
+  }
+
+  try {
+    const friend = await User.findOne({email: req.body.email});
+
+    if (!friend) {
+      return res.status(401).send({message: 'Not found user'});
+    }
+
+    const user = await User.findOneAndUpdate(
+      {_id: req.user._id},
+      {$push: {friends: friend._id}},
+      {returnDocument: "after"}
+      );
+
+    await user.save({validateBeforeSave: false});
+
+    res.send(user);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 

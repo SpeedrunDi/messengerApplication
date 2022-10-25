@@ -12,5 +12,8 @@ export const {
   facebookLoginFailure,
   logoutRequest,
   logoutSuccess,
-  logoutFailure
+  logoutFailure,
+  addFriendRequest,
+  addFriendSuccess,
+  addFriendFailure
 } = usersSlice.actions;
